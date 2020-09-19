@@ -2,12 +2,53 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: LogInSignUpPage(),
+    home: SplashScreen(),
     theme: ThemeData(
       primarySwatch: Colors.blue,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
   ));
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  double _logoopacity = 1.0;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      _logoopacity = 0;
+      setState(() {});
+    });
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return LogInSignUpPage();
+      }));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.lightBlue[900],
+      body: Center(
+        child: AnimatedOpacity(
+          opacity: _logoopacity,
+          duration: Duration(milliseconds: 500),
+          child: Icon(
+            Icons.monetization_on,
+            size: 200,
+            color: Colors.lightBlue[100],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class LogInSignUpPage extends StatefulWidget {
@@ -58,8 +99,13 @@ class _LogInSignUpPageState extends State<LogInSignUpPage> {
                           height: 40,
                           width: 120,
                           child: FloatingActionButton.extended(
-                            onPressed: () {},
-                            heroTag: null,
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return SignupPage();
+                              }));
+                            },
+                            heroTag: 'signupbtn',
                             elevation: 15,
                             backgroundColor: Colors.lightBlue[900],
                             label: Text("Sign up"),
@@ -290,6 +336,169 @@ class _LoginPageState extends State<LoginPage> {
                           elevation: 15,
                           backgroundColor: Colors.lightBlue[900],
                           label: Text("Log In"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignupPage extends StatefulWidget {
+  @override
+  _SignupPageState createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  bool _emailreadonly = true;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 400), () {
+      _emailreadonly = false;
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.lightBlue[900],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.45,
+              child: Center(
+                child: Hero(
+                  tag: 'accounticon',
+                  child: Icon(
+                    Icons.account_circle,
+                    color: Colors.lightBlue[100],
+                    size: 250,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.55,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(35, 50, 35, 100),
+                child: Card(
+                  elevation: 40,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  color: Colors.white.withOpacity(0.7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 250,
+                        child: TextField(
+                          cursorColor: Colors.lightBlue[900],
+                          style: TextStyle(
+                            color: Colors.lightBlue[900],
+                          ),
+                          readOnly: _emailreadonly,
+                          autofocus: true,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          decoration: InputDecoration(
+                            hintText: "Email ID",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: Colors.lightBlue[900],
+                                width: 2,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 250,
+                        child: TextField(
+                          cursorColor: Colors.lightBlue[900],
+                          style: TextStyle(
+                            color: Colors.lightBlue[900],
+                          ),
+                          autofocus: true,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          decoration: InputDecoration(
+                            hintText: "Username",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: Colors.lightBlue[900],
+                                width: 2,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 250,
+                        child: TextField(
+                          cursorColor: Colors.lightBlue[900],
+                          style: TextStyle(
+                            color: Colors.lightBlue[900],
+                          ),
+                          obscureText: true,
+                          autofocus: true,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.bottom,
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                color: Colors.lightBlue[900],
+                                width: 2,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 200,
+                        child: FloatingActionButton.extended(
+                          onPressed: () {},
+                          heroTag: 'signupbtn',
+                          elevation: 15,
+                          backgroundColor: Colors.lightBlue[900],
+                          label: Text("Sign Up"),
                         ),
                       ),
                     ],
